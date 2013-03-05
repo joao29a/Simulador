@@ -1,0 +1,4 @@
+add A 3 2
+div B 100 10
+mult H 30 73
+sub F 22 9
