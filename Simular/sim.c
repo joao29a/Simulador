@@ -38,7 +38,7 @@ int excInstrucao(int op, int B, int C){
 	int A;
 	switch(op){
 		case 0:
-			//MOV
+			A=B;
 			break;
 		case 1:
 			//LD
@@ -59,7 +59,7 @@ int excInstrucao(int op, int B, int C){
 			A=B/C;
 			break;
 		case 7:
-			//REST
+			A=B%C;
 			break;
 		case 8:
 			//DIVR
@@ -144,11 +144,11 @@ void lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig
 	for (i=0;i<=strlen(palavra);i++){
 		if (palavra[i]!=' ' && parte==0)
 			opcode[k++]=palavra[i];
-		else if (palavra[i]!=',' && parte==1)
+		else if (palavra[i]!=',' && parte==1 && palavra[i]!='\0')
 			dest[k++]=palavra[i];
-		else if (palavra[i]!=',' && parte==2) 
+		else if (palavra[i]!=',' && parte==2 && palavra[i]!='\0') 
 			orig1[k++]=palavra[i];
-		else if (parte==3)
+		else if (parte==3 && palavra[i]!='\0')
 			orig2[k++]=palavra[i];
 		if (palavra[i]==' ' || palavra[i]=='\0' || palavra[i]==','){
 			switch(parte){
@@ -181,15 +181,32 @@ void removerLinha(char *palavra, int pos){
 	}
 }
 
+int verificarOperando(char *orig){
+	if (orig!=NULL)
+		return decOrig(orig);
+	else
+		return 0;
+}
+
+void resetarBuffer(char *buffer){
+	if (buffer[0]!='\0')
+		buffer[0]='\0';
+}
+
 //le o arquivo todo
 void LeituraArquivo(FILE *Arquivo){
 	char palavra[TAM_LINHA_MAX];
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){
 		char opcode[TAM_LINHA_MAX],dest[TAM_LINHA_MAX],
 		     orig1[TAM_LINHA_MAX],orig2[TAM_LINHA_MAX];
+		resetarBuffer(opcode);
+		resetarBuffer(dest);
+		resetarBuffer(orig1);
+		resetarBuffer(orig2);
 		removerLinha(palavra,strlen(palavra)-1);
 		lerLinha(Arquivo,palavra,opcode,dest,orig1,orig2);
-		CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decRegistrador(dest),decOrig(orig1),decOrig(orig2));
+		CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decRegistrador(dest),
+				verificarOperando(orig1),verificarOperando(orig2));
 		ExecutarInst(MainMemory,PC);
 		PC++;
 	}     
