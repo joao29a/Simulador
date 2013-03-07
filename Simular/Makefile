@@ -1,17 +1,11 @@
-all: simulador criar mover executar remover
-
-criar:
-	mkdir exe
+all: simulador executar remover
 
 simulador:
 	gcc sim.c Estruturas/Interface.c Estruturas/Memorias.c Estruturas/Registradores.c Estruturas/Rotulos.c -o sim
 
-mover:
-	mv sim exe
-
 executar:
-	./exe/sim
+	./sim
 
 remover:
-	rm -r exe
+	rm sim
 

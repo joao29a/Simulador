@@ -1,15 +1,13 @@
 #ifndef REGISTRADORES_H
 #define REGISTRADORES_H
 
-#define REG 7
-
+#define QTD_REG 26
 
 typedef struct Registradores{
+	char *reg;
 	char *string;
 	int inteiro;
-	float flutuante;
 
 }Registradores;
-
 
 #endif
