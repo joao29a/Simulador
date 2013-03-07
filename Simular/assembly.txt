@@ -1,7 +1,7 @@
 ADD A, 3, 2
-ADD B, A, 10
-SUB C, B, A
-MOV K, C
-MOV J, B
-REST Z, J, K
-MOV W, Z
+SYS A, 2
+MUL A, A, A
+SYS A, 2
+SYS B, 1
+REST C, A, B
+SYS C, 2

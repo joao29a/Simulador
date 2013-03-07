@@ -30,11 +30,11 @@ void ExecutarInst(MemoriaCode *memory, int endereco){
 	int posReg=memory[endereco].destino;
 	int oper1=memory[endereco].operando1;
 	int oper2=memory[endereco].operando2;
-	registrador[posReg].inteiro=excInstrucao(op,oper1,oper2);
+	registrador[posReg].inteiro=excInstrucao(op,posReg,oper1,oper2);
 }
 
 //decodifica opcode e joga valor no registrador
-int excInstrucao(int op, int B, int C){
+int excInstrucao(int op, int dest, int B, int C){
 	int A;
 	switch(op){
 		case 0:
@@ -86,7 +86,16 @@ int excInstrucao(int op, int B, int C){
 			//CALL
 			break;
 		case 16:
-			//SYS
+			switch(B){
+				case 1:
+					scanf("%d",&A);
+					printf("%d\n",A);
+					break;
+				case 2:
+					printf("%d\n",registrador[dest].inteiro);
+					A=registrador[dest].inteiro;	
+					break;
+			}
 			break;
 		case 17:
 			//RET
@@ -219,8 +228,8 @@ int main(){
 	FILE *Arquivo=fopen("assembly.txt","r");
 	if (Arquivo!=NULL){
 		LeituraArquivo(Arquivo);
-		MostraMemoriaCode(MainMemory);
-		mostraRegistradores(registrador);
+		//MostraMemoriaCode(MainMemory);
+		//mostraRegistradores(registrador);
 	}
 	else{
 		printf("Arquivo nao encontrado");
