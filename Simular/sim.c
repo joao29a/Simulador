@@ -17,6 +17,7 @@ char *TabelaRegistradores[]={"A","B","C","D","E","F","G","H","I","J","K","L",
 
 MemoriaCode MainMemory[TAM_MEM];
 Registradores registrador[QTD_REG];
+Rotulos *TabelaRotulos;
 int PC=0;
 
 void atribuirLetrasReg(Registradores *reg){
@@ -30,7 +31,11 @@ void BuscaInstrucao(MemoriaCode *memory, int endereco){
 	int posReg=memory[endereco].destino;
 	int oper1=decOperando(memory[endereco].operando1);
 	int oper2=decOperando(memory[endereco].operando2);
-	registrador[posReg].inteiro=ExecutaInstrucao(op,posReg,oper1,oper2);
+	int descartar;
+	if (op>=0 && op<=7)
+		registrador[posReg].inteiro=ExecutaInstrucao(op,posReg,oper1,oper2);
+	else
+		descartar=ExecutaInstrucao(op,posReg,oper1,oper2);
 }
 
 int ExecutaInstrucao(int op, int dest, int B, int C){
@@ -70,7 +75,8 @@ int ExecutaInstrucao(int op, int dest, int B, int C){
 			//JUMPN
 			break;
 		case 11:
-			//JUMPP
+			if (B>0)
+				PC=dest-1;
 			break;
 		case 12:
 			//JUMPZ
@@ -92,7 +98,6 @@ int ExecutaInstrucao(int op, int dest, int B, int C){
 					break;
 				case 2:
 					printf("%d\n",registrador[dest].inteiro);
-					A=registrador[dest].inteiro;	
 					break;
 			}
 			break;
@@ -113,11 +118,16 @@ int decOpcode(char *opcode){
 			return i;
 }
 
-int decRegistrador(char *dest){
-	int i;
-	for (i=0;i<QTD_REG;i++)
-		if (strcmp(dest,TabelaRegistradores[i])==0)
-			return i;
+int decDestino(char *dest){
+	int ascii=dest[0];
+	if (ascii>=97 && ascii<=122)
+		return procurarRotulo(dest,TabelaRotulos);	
+	else {
+		int i;
+		for (i=0;i<QTD_REG;i++)
+			if (strcmp(dest,TabelaRegistradores[i])==0)
+				return i;
+	}
 }
 
 int decOperando(char *orig){
@@ -153,12 +163,13 @@ void IniciarExecucao(int TamanhoPrograma){
 int main(){
 	IniciarMemoriaCode(MainMemory);
 	atribuirLetrasReg(registrador);
+	TabelaRotulos=NULL;
 	FILE *Arquivo=fopen("assembly.txt","r");
 	if (Arquivo!=NULL){
-		PC=LeituraArquivo(Arquivo,MainMemory);
-		MostraMemoriaCode(MainMemory);
+		PC=LeituraArquivo(Arquivo,MainMemory,&TabelaRotulos);
+		//MostraMemoriaCode(MainMemory);
 		IniciarExecucao(PC-1);	
-		mostraRegistradores(registrador);
+		//mostraRegistradores(registrador);
 	}
 	else
 		printf("Arquivo nao encontrado");	
