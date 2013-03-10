@@ -21,8 +21,9 @@ void armazenarRotulo(char *palavra, Rotulos **rot, int PC){
 		(*rot)=aux;
 	}
 	else{
-		while (aux->prox!=NULL)
+		while (aux->prox!=NULL){
 			aux=aux->prox;
+		}
 		aux->prox=malloc(sizeof(Rotulos));
 		aux=aux->prox;
 		aux->rotulo=malloc(sizeof(char));

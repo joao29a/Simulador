@@ -17,3 +17,9 @@ loop2:
 	SUB A, A, 1
 	JUMPP loop2, A
 	SYS D, 2
+	SUB D, D, 120
+	JUMPZ fim, D
+	EXIT
+fim:
+	MOV E, 29
+	SYS E, 2

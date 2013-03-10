@@ -69,17 +69,19 @@ int ExecutaInstrucao(int op, int dest, int B, int C){
 			//DIVR
 			break;
 		case 9:
-			//JUMP
+			PC=dest-1;
 			break;
 		case 10:
-			//JUMPN
+			if (B<0)
+				PC=dest-1;
 			break;
 		case 11:
 			if (B>0)
 				PC=dest-1;
 			break;
 		case 12:
-			//JUMPZ
+			if (B==0)
+				PC=dest-1;
 			break;
 		case 13:
 			//PUSH
@@ -105,7 +107,8 @@ int ExecutaInstrucao(int op, int dest, int B, int C){
 			//RET
 			break;
 		case 18:
-			//EXIT
+			PC=-1;
+			printf("Programa encerrado...\n");
 			break;
 	}
 	return A;     
@@ -156,8 +159,11 @@ int decOperando(char *orig){
 }
 
 void IniciarExecucao(int TamanhoPrograma){
-	for (PC=0;PC<=TamanhoPrograma;PC++)
+	for (PC=0;PC<=TamanhoPrograma;PC++){
 		BuscaInstrucao(MainMemory,PC);
+		if (PC==-1)
+			break;
+	}
 }
 
 int main(){

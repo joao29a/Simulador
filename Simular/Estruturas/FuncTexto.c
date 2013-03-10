@@ -9,6 +9,9 @@ int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, Rotulos **rot){
 	char palavra[TAM_LINHA_MAX];
 	int PC=0;
 	int rotulo;
+	selecionarRotulos(Arquivo,&*rot,PC);
+	rewind(Arquivo);
+	PC=0;
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){
 		char opcode[TAM_LINHA_MAX],dest[TAM_LINHA_MAX],
 		     orig1[TAM_LINHA_MAX],orig2[TAM_LINHA_MAX];
@@ -20,7 +23,7 @@ int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, Rotulos **rot){
 		rotulo=lerLinha(Arquivo,palavra,opcode,dest,orig1,orig2,&*rot,PC);
 		if (rotulo==0){
 			CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decDestino(dest),
-				orig1,orig2);
+					orig1,orig2);
 			PC++;
 		}
 	}
@@ -28,12 +31,9 @@ int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, Rotulos **rot){
 }
 
 int lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1, char *orig2, Rotulos **rot, int PC){
-	int i, k=0, parte=0, rotulo=0;
-	if (palavra[0]!='\t'){
-		rotulo=1;
-		armazenarRotulo(palavra,&*rot,PC);
-	}
-	else{
+	int i, k=0, parte=0, rotulo=1;
+	if (palavra[0]=='\t'){
+		rotulo=0;
 		for (i=1;i<=strlen(palavra);i++){
 			if (palavra[i]!=' ' && parte==0)
 				opcode[k++]=palavra[i];
@@ -66,6 +66,17 @@ int lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1
 		}
 	}
 	return rotulo;
+}
+
+void selecionarRotulos(FILE *Arquivo, Rotulos **rot, int PC){
+	char palavra[TAM_LINHA_MAX];
+	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){	
+		removerLinha(palavra,strlen(palavra)-1);
+		if (palavra[0]!='\t')
+			armazenarRotulo(palavra,&*rot,PC);
+		else
+			PC++;
+	}
 }
 
 void removerLinha(char *palavra, int pos){
