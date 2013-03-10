@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Estruturas/FuncTexto.h"
 #include "Estruturas/Interface.h"
 #include "Estruturas/Memorias.h"
 #include "Estruturas/Registradores.h"
 #include "Estruturas/Rotulos.h"
 
-#define TAM_LINHA_MAX 30
 #define QTD_INSTRUCOES 19
 
 char *TabelaOpcode[]={"MOV","LD","ST","ADD","SUB","MUL","DIV","REST","DIVR",
@@ -25,16 +25,15 @@ void atribuirLetrasReg(Registradores *reg){
 		reg[i].reg=TabelaRegistradores[i];
 }
 
-void ExecutarInst(MemoriaCode *memory, int endereco){
+void BuscaInstrucao(MemoriaCode *memory, int endereco){
 	int op=memory[endereco].opcode;
 	int posReg=memory[endereco].destino;
-	int oper1=memory[endereco].operando1;
-	int oper2=memory[endereco].operando2;
-	registrador[posReg].inteiro=excInstrucao(op,posReg,oper1,oper2);
+	int oper1=decOperando(memory[endereco].operando1);
+	int oper2=decOperando(memory[endereco].operando2);
+	registrador[posReg].inteiro=ExecutaInstrucao(op,posReg,oper1,oper2);
 }
 
-//decodifica opcode e joga valor no registrador
-int excInstrucao(int op, int dest, int B, int C){
+int ExecutaInstrucao(int op, int dest, int B, int C){
 	int A;
 	switch(op){
 		case 0:
@@ -121,8 +120,7 @@ int decRegistrador(char *dest){
 			return i;
 }
 
-//transforma a string dos operandos em um int para poder somar,sub...
-int decOrig(char *orig){
+int decOperando(char *orig){
 	int ascii=orig[0];
 	int valor=0;
 	if (ascii>=65 && ascii<=90){
@@ -147,92 +145,22 @@ int decOrig(char *orig){
 	return valor;
 }
 
-//le uma linha do arquivo texto e identifica o opcode, dest...
-void lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
-	int i, k=0, parte=0;
-	for (i=0;i<=strlen(palavra);i++){
-		if (palavra[i]!=' ' && parte==0)
-			opcode[k++]=palavra[i];
-		else if (palavra[i]!=',' && parte==1 && palavra[i]!='\0')
-			dest[k++]=palavra[i];
-		else if (palavra[i]!=',' && parte==2 && palavra[i]!='\0') 
-			orig1[k++]=palavra[i];
-		else if (parte==3 && palavra[i]!='\0')
-			orig2[k++]=palavra[i];
-		if (palavra[i]==' ' || palavra[i]=='\0' || palavra[i]==','){
-			switch(parte){
-				case 0:
-					opcode[k]='\0';
-					break;
-				case 1:
-					dest[k]='\0';
-					break;
-				case 2:
-					orig1[k]='\0';
-					break;
-				case 3:
-					orig2[k]='\0';
-					break;
-			}
-			if (palavra[i]==',')
-				i++;
-			parte++;
-			k=0;
-		}
-	}
+void IniciarExecucao(int TamanhoPrograma){
+	for (PC=0;PC<=TamanhoPrograma;PC++)
+		BuscaInstrucao(MainMemory,PC);
 }
 
-//remove \n do vetor de caracteres
-void removerLinha(char *palavra, int pos){
-	if (palavra[pos]=='\n'){
-		palavra[pos+1]=' ';
-		palavra[pos]='\0';
-	}
-}
-
-int verificarOperando(char *orig){
-	if (orig!=NULL)
-		return decOrig(orig);
-	else
-		return 0;
-}
-
-void resetarBuffer(char *buffer){
-	if (buffer[0]!='\0')
-		buffer[0]='\0';
-}
-
-//le o arquivo todo
-void LeituraArquivo(FILE *Arquivo){
-	char palavra[TAM_LINHA_MAX];
-	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){
-		char opcode[TAM_LINHA_MAX],dest[TAM_LINHA_MAX],
-		     orig1[TAM_LINHA_MAX],orig2[TAM_LINHA_MAX];
-		resetarBuffer(opcode);
-		resetarBuffer(dest);
-		resetarBuffer(orig1);
-		resetarBuffer(orig2);
-		removerLinha(palavra,strlen(palavra)-1);
-		lerLinha(Arquivo,palavra,opcode,dest,orig1,orig2);
-		CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decRegistrador(dest),
-				verificarOperando(orig1),verificarOperando(orig2));
-		ExecutarInst(MainMemory,PC);
-		PC++;
-	}     
-}
-
-//inicia simulador
 int main(){
 	IniciarMemoriaCode(MainMemory);
 	atribuirLetrasReg(registrador);
 	FILE *Arquivo=fopen("assembly.txt","r");
 	if (Arquivo!=NULL){
-		LeituraArquivo(Arquivo);
-		//MostraMemoriaCode(MainMemory);
-		//mostraRegistradores(registrador);
+		PC=LeituraArquivo(Arquivo,MainMemory);
+		MostraMemoriaCode(MainMemory);
+		IniciarExecucao(PC-1);	
+		mostraRegistradores(registrador);
 	}
-	else{
-		printf("Arquivo nao encontrado");
-	}	
+	else
+		printf("Arquivo nao encontrado");	
 	return 0;
 }
