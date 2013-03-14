@@ -1,0 +1,10 @@
+	SYS A, 1
+	SYS B, 1
+	SUB C, A, B
+	JUMPP amaior, C
+	SYS B, 2
+	JUMP fim
+amaior:
+	SYS A, 2
+fim:
+	EXIT

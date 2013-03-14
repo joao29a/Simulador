@@ -26,23 +26,10 @@ void atribuirLetrasReg(Registradores *reg){
 		reg[i].reg=TabelaRegistradores[i];
 }
 
-void BuscaInstrucao(MemoriaCode *memory, int endereco){
-	int op=memory[endereco].opcode;
-	int posReg=memory[endereco].destino;
-	int oper1=decOperando(memory[endereco].operando1);
-	int oper2=decOperando(memory[endereco].operando2);
-	int descartar;
-	if (op>=0 && op<=7)
-		registrador[posReg].inteiro=ExecutaInstrucao(op,posReg,oper1,oper2);
-	else
-		descartar=ExecutaInstrucao(op,posReg,oper1,oper2);
-}
-
-int ExecutaInstrucao(int op, int dest, int B, int C){
-	int A;
+void ExecutaInstrucao(int op, int dest, int B, int C){
 	switch(op){
 		case 0:
-			A=B;
+			registrador[dest].inteiro=B;
 			break;
 		case 1:
 			//LD
@@ -51,19 +38,19 @@ int ExecutaInstrucao(int op, int dest, int B, int C){
 			//ST
 			break;
 		case 3:
-			A=B+C;
+			registrador[dest].inteiro=B+C;
 			break;
 		case 4:
-			A=B-C;
+			registrador[dest].inteiro=B-C;
 			break;
 		case 5:
-			A=B*C;
+			registrador[dest].inteiro=B*C;
 			break;
 		case 6:
-			A=B/C;
+			registrador[dest].inteiro=B/C;
 			break;
 		case 7:
-			A=B%C;
+			registrador[dest].inteiro=B%C;
 			break;
 		case 8:
 			//DIVR
@@ -95,8 +82,7 @@ int ExecutaInstrucao(int op, int dest, int B, int C){
 		case 16:
 			switch(B){
 				case 1:
-					scanf("%d",&A);
-					printf("%d\n",A);
+					scanf("%d",&registrador[dest].inteiro);
 					break;
 				case 2:
 					printf("%d\n",registrador[dest].inteiro);
@@ -111,7 +97,14 @@ int ExecutaInstrucao(int op, int dest, int B, int C){
 			printf("Programa encerrado...\n");
 			break;
 	}
-	return A;     
+}
+
+void BuscaInstrucao(MemoriaCode *memory, int endereco){
+	int op=memory[endereco].opcode;
+	int dest=memory[endereco].destino;
+	int oper1=decOperando(memory[endereco].operando1);
+	int oper2=decOperando(memory[endereco].operando2);
+	ExecutaInstrucao(op,dest,oper1,oper2);
 }
 
 int decOpcode(char *opcode){
@@ -140,22 +133,10 @@ int decOperando(char *orig){
 		int i;
 		for (i=0;i<QTD_REG;i++)
 			if (strcmp(orig,registrador[i].reg)==0)
-				valor=registrador[i].inteiro;
+				return registrador[i].inteiro;
 	}
-	else {
-		int i;
-		int mult=1;
-		int tamanho=strlen(orig);
-		for (i=strlen(orig)-1;i>=0;i--){
-			int temp=orig[i];
-			temp=temp-48;
-			temp*=mult;
-			valor+=temp;
-			mult*=10;
-		}
-	}
-
-	return valor;
+	else
+		return atoi(orig);
 }
 
 void IniciarExecucao(int TamanhoPrograma){
@@ -169,8 +150,8 @@ void IniciarExecucao(int TamanhoPrograma){
 int main(){
 	IniciarMemoriaCode(MainMemory);
 	atribuirLetrasReg(registrador);
-	TabelaRotulos=NULL;
-	FILE *Arquivo=fopen("assembly.txt","r");
+	iniciarTabelaRotulo(&TabelaRotulos);	
+	FILE *Arquivo=fopen("maiorElemento.txt","r");
 	if (Arquivo!=NULL){
 		PC=LeituraArquivo(Arquivo,MainMemory,&TabelaRotulos);
 		//MostraMemoriaCode(MainMemory);
