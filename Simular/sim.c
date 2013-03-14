@@ -128,7 +128,6 @@ int decDestino(char *dest){
 
 int decOperando(char *orig){
 	int ascii=orig[0];
-	int valor=0;
 	if (ascii>=65 && ascii<=90){
 		int i;
 		for (i=0;i<QTD_REG;i++)
