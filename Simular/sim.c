@@ -146,18 +146,27 @@ void IniciarExecucao(int TamanhoPrograma){
 	}
 }
 
-int main(){
-	IniciarMemoriaCode(MainMemory);
-	atribuirLetrasReg(registrador);
-	iniciarTabelaRotulo(&TabelaRotulos);	
-	FILE *Arquivo=fopen("maiorElemento.txt","r");
+void inserirPrograma(){
+	char *programa=(char*)malloc(255*sizeof(char));
+	printf("Nome do programa: ");
+	scanf("%s",programa);
+	FILE *Arquivo=fopen(programa,"r");
 	if (Arquivo!=NULL){
-		PC=LeituraArquivo(Arquivo,MainMemory,&TabelaRotulos);
+		selecionarRotulos(Arquivo,&TabelaRotulos);
+		rewind(Arquivo);
+		PC=LeituraArquivo(Arquivo,MainMemory);
 		//MostraMemoriaCode(MainMemory);
 		IniciarExecucao(PC-1);	
 		//mostraRegistradores(registrador);
 	}
 	else
-		printf("Arquivo nao encontrado");	
+		printf("Arquivo nao encontrado\n");
+}
+
+int main(){
+	IniciarMemoriaCode(MainMemory);
+	atribuirLetrasReg(registrador);
+	iniciarTabelaRotulo(&TabelaRotulos);
+	inserirPrograma();	
 	return 0;
 }

@@ -5,13 +5,10 @@
 #include "Memorias.h"
 #include "Rotulos.h"
 
-int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, Rotulos **rot){
+int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
 	char palavra[TAM_LINHA_MAX];
-	int PC=0;
 	int rotulo;
-	selecionarRotulos(Arquivo,&*rot,PC);
-	rewind(Arquivo);
-	PC=0;
+	int PC=0;
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){
 		char opcode[TAM_LINHA_MAX],dest[TAM_LINHA_MAX],
 		     orig1[TAM_LINHA_MAX],orig2[TAM_LINHA_MAX];
@@ -20,7 +17,7 @@ int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, Rotulos **rot){
 		resetarBuffer(orig1);
 		resetarBuffer(orig2);
 		removerLinha(palavra,strlen(palavra)-1);
-		rotulo=lerLinha(Arquivo,palavra,opcode,dest,orig1,orig2,&*rot,PC);
+		rotulo=lerLinha(Arquivo,palavra,opcode,dest,orig1,orig2);
 		if (rotulo==0){
 			CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decDestino(dest),
 					orig1,orig2);
@@ -30,7 +27,7 @@ int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, Rotulos **rot){
 	return PC;
 }
 
-int lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1, char *orig2, Rotulos **rot, int PC){
+int lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
 	int i, k=0, parte=0, rotulo=1;
 	if (palavra[0]=='\t'){
 		rotulo=0;
@@ -68,8 +65,9 @@ int lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1
 	return rotulo;
 }
 
-void selecionarRotulos(FILE *Arquivo, Rotulos **rot, int PC){
+void selecionarRotulos(FILE *Arquivo, Rotulos **rot){
 	char palavra[TAM_LINHA_MAX];
+	int PC=0;
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){	
 		removerLinha(palavra,strlen(palavra)-1);
 		if (palavra[0]!='\t')

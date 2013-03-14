@@ -6,11 +6,11 @@
 
 #define TAM_LINHA_MAX 20
 
-int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, Rotulos **rot);
+int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory);
 
-int lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1, char *orig2, Rotulos **rot, int PC);
+int lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1, char *orig2);
 
-void selecionarRotulos(FILE *Arquvo, Rotulos **rot, int PC);
+void selecionarRotulos(FILE *Arquvo, Rotulos **rot);
 
 void removerLinha(char *palavra, int pos);
 
