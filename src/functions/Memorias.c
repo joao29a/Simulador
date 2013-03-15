@@ -3,6 +3,8 @@
 #include <string.h>
 #include "../hdr/Memorias.h"
 
+MemoriaCode MainMemory[TAM_MEM];
+
 void IniciarMemoriaCode(MemoriaCode *memory){
      int i;
      for (i=0;i<TAM_MEM;i++){

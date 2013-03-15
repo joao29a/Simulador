@@ -7,6 +7,8 @@ typedef struct rotulos{
 	struct rotulos *prox;
 }Rotulos;
 
+extern Rotulos *TabelaRotulos;
+
 void iniciarTabelaRotulo(Rotulos **rot);
 
 void armazenarRotulo(char *palavra, Rotulos **rot, int PC);

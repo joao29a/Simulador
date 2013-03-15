@@ -6,25 +6,10 @@
 #include "hdr/Memorias.h"
 #include "hdr/Registradores.h"
 #include "hdr/Rotulos.h"
+#include "hdr/Decodificador.h"
+#include "hdr/Opcode.h"
 
-#define QTD_INSTRUCOES 19
-
-char *TabelaOpcode[]={"MOV","LD","ST","ADD","SUB","MUL","DIV","REST","DIVR",
-	"JUMP","JUMPN","JUMPP","JUMPZ","PUSH","POP","CALL","SYS","RET","EXIT"};
-
-char *TabelaRegistradores[]={"A","B","C","D","E","F","G","H","I","J","K","L",
-	"M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-
-MemoriaCode MainMemory[TAM_MEM];
-Registradores registrador[QTD_REG];
-Rotulos *TabelaRotulos;
 int PC=0;
-
-void atribuirLetrasReg(Registradores *reg){
-	int i;
-	for (i=0;i<QTD_REG;i++)
-		reg[i].reg=TabelaRegistradores[i];
-}
 
 void ExecutaInstrucao(int op, int dest, int B, int C){
 	switch(op){
@@ -105,37 +90,6 @@ void BuscaInstrucao(MemoriaCode *memory, int endereco){
 	int oper1=decOperando(memory[endereco].operando1);
 	int oper2=decOperando(memory[endereco].operando2);
 	ExecutaInstrucao(op,dest,oper1,oper2);
-}
-
-int decOpcode(char *opcode){
-	int i;
-	for (i=0;i<QTD_INSTRUCOES;i++)
-		if (strcmp(opcode,TabelaOpcode[i])==0)
-			return i;
-}
-
-int decDestino(char *dest){
-	int ascii=dest[0];
-	if (ascii>=97 && ascii<=122)
-		return procurarRotulo(dest,TabelaRotulos);	
-	else {
-		int i;
-		for (i=0;i<QTD_REG;i++)
-			if (strcmp(dest,TabelaRegistradores[i])==0)
-				return i;
-	}
-}
-
-int decOperando(char *orig){
-	int ascii=orig[0];
-	if (ascii>=65 && ascii<=90){
-		int i;
-		for (i=0;i<QTD_REG;i++)
-			if (strcmp(orig,registrador[i].reg)==0)
-				return registrador[i].inteiro;
-	}
-	else
-		return atoi(orig);
 }
 
 void IniciarExecucao(int TamanhoPrograma){

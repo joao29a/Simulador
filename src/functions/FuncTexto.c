@@ -4,6 +4,7 @@
 #include "../hdr/FuncTexto.h"
 #include "../hdr/Memorias.h"
 #include "../hdr/Rotulos.h"
+#include "../hdr/Decodificador.h"
 
 int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
 	char palavra[TAM_LINHA_MAX];
@@ -17,7 +18,7 @@ int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
 		resetarBuffer(orig1);
 		resetarBuffer(orig2);
 		removerLinha(palavra,strlen(palavra)-1);
-		rotulo=lerLinha(Arquivo,palavra,opcode,dest,orig1,orig2);
+		rotulo=lerLinha(palavra,opcode,dest,orig1,orig2);
 		if (rotulo==0){
 			CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decDestino(dest),
 					orig1,orig2);
@@ -27,11 +28,12 @@ int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
 	return PC;
 }
 
-int lerLinha(FILE *Arquivo, char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
+int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
 	int i, k=0, parte=0, rotulo=1;
 	if (palavra[0]=='\t'){
 		rotulo=0;
-		for (i=1;i<=strlen(palavra);i++){
+		int tamanho=strlen(palavra);
+		for (i=1;i<=tamanho;i++){
 			if (palavra[i]!=' ' && parte==0)
 				opcode[k++]=palavra[i];
 			else if (palavra[i]!=',' && parte==1 && palavra[i]!='\0')

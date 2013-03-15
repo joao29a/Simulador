@@ -3,6 +3,8 @@
 #include <string.h>
 #include "../hdr/Rotulos.h"
 
+Rotulos *TabelaRotulos;
+
 void iniciarTabelaRotulo(Rotulos **rot){
 	(*rot)=NULL;
 }
