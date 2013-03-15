@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Estruturas/FuncTexto.h"
-#include "Estruturas/Interface.h"
-#include "Estruturas/Memorias.h"
-#include "Estruturas/Registradores.h"
-#include "Estruturas/Rotulos.h"
+#include "hdr/FuncTexto.h"
+#include "hdr/Interface.h"
+#include "hdr/Memorias.h"
+#include "hdr/Registradores.h"
+#include "hdr/Rotulos.h"
 
 #define QTD_INSTRUCOES 19
 
