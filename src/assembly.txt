@@ -1,0 +1,25 @@
+	MOV A, 4
+	MOV B, 10
+	MOV C, 1
+loop:
+	MUL D, A, C
+	SYS D, 2
+	ADD C, C, 1
+	SUB B, B, 1
+	JUMPP loop, B
+	DIV D, D, 10
+	ADD D, D, 1
+	SYS D, 2
+	MOV A, D
+	SUB A, A, 1
+loop2:
+	MUL D, D, A
+	SUB A, A, 1
+	JUMPP loop2, A
+	SYS D, 2
+	SUB D, D, 120
+	JUMPZ fim, D
+	EXIT
+fim:
+	MOV E, 29
+	SYS E, 2
