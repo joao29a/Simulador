@@ -11,5 +11,5 @@ void iniciarTabelaRotulo(Rotulos **rot);
 
 void armazenarRotulo(char *palavra, Rotulos **rot, int PC);
 
-void identificarRotulo();
+int procurarRotulo(char *palavra, Rotulos *rot);
 #endif
