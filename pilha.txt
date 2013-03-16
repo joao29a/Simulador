@@ -1,0 +1,13 @@
+	SYS A, 1
+	PUSH A
+	SYS B, 1
+	PUSH B
+	SYS C, 1
+	PUSH C
+	POP D
+	POP E
+	ADD F, D, E
+	POP D
+	MUL A, F, D
+	SYS A, 2
+	EXIT

@@ -8,6 +8,7 @@
 #include "hdr/Rotulos.h"
 #include "hdr/Decodificador.h"
 #include "hdr/Opcode.h"
+#include "hdr/Pilha.h"
 
 int PC=0;
 
@@ -56,10 +57,10 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 				PC=dest-1;
 			break;
 		case 13:
-			//PUSH
+			Empilhar(&Stack,registrador[dest].inteiro);
 			break;
 		case 14:
-			//POP
+			registrador[dest].inteiro=Desempilhar(&Stack);
 			break;
 		case 15:
 			//CALL
