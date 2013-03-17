@@ -6,11 +6,15 @@
 #include "../hdr/Rotulos.h"
 #include "../hdr/Decodificador.h"
 
-int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
+int PCRotulos=0;
+int PCLeituraArquivo=0;
+
+void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
 	char palavra[TAM_LINHA_MAX];
 	int rotulo;
-	int PC=0;
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){
+		if (palavra[0]=='@')
+			break;
 		char opcode[TAM_LINHA_MAX],dest[TAM_LINHA_MAX],
 		     orig1[TAM_LINHA_MAX],orig2[TAM_LINHA_MAX];
 		resetarBuffer(opcode);
@@ -20,12 +24,11 @@ int LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
 		removerLinha(palavra,strlen(palavra)-1);
 		rotulo=lerLinha(palavra,opcode,dest,orig1,orig2);
 		if (rotulo==0){
-			CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decDestino(dest),
+			CarregarMemoriaCode(MainMemory,PCLeituraArquivo,decOpcode(opcode),decDestino(dest),
 					orig1,orig2);
-			PC++;
+			PCLeituraArquivo++;
 		}
 	}
-	return PC;
 }
 
 int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
@@ -69,13 +72,21 @@ int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
 
 void selecionarRotulos(FILE *Arquivo, Rotulos **rot){
 	char palavra[TAM_LINHA_MAX];
-	int PC=0;
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){	
 		removerLinha(palavra,strlen(palavra)-1);
-		if (palavra[0]!='\t')
-			armazenarRotulo(palavra,&*rot,PC);
+		if (palavra[0]!='\t' && palavra[0]!='@')
+			armazenarRotulo(palavra,&*rot,PCRotulos);
+		else if (palavra[0]=='@'){
+			PCLeituraArquivo=PCRotulos;
+			armazenarRotulo(palavra,&*rot,PCRotulos);
+			int pos=ftell(Arquivo);
+			selecionarRotulos(Arquivo,&*rot);
+			fseek(Arquivo,pos,SEEK_SET);
+			LeituraArquivo(Arquivo,MainMemory);
+			break;
+		}
 		else
-			PC++;
+			PCRotulos++;
 	}
 }
 

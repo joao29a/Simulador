@@ -63,7 +63,8 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			registrador[dest].inteiro=Desempilhar(&Stack);
 			break;
 		case 15:
-			//CALL
+			Empilhar(&Stack,PC);
+			PC=dest-1;
 			break;
 		case 16:
 			switch(B){
@@ -76,7 +77,7 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			}
 			break;
 		case 17:
-			//RET
+			PC=Desempilhar(&Stack);
 			break;
 		case 18:
 			PC=-1;
@@ -99,6 +100,7 @@ void IniciarExecucao(int TamanhoPrograma){
 		if (PC==-1)
 			break;
 	}
+	free(Stack);
 }
 
 void inserirPrograma(){
@@ -109,9 +111,11 @@ void inserirPrograma(){
 	if (Arquivo!=NULL){
 		selecionarRotulos(Arquivo,&TabelaRotulos);
 		rewind(Arquivo);
-		PC=LeituraArquivo(Arquivo,MainMemory);
-		//MostraMemoriaCode(MainMemory);
+		PCLeituraArquivo=0;
+		LeituraArquivo(Arquivo,MainMemory);
+		PC=PCRotulos;
 		IniciarExecucao(PC-1);	
+		//MostraMemoriaCode(MainMemory);
 		//mostraRegistradores(registrador);
 	}
 	else

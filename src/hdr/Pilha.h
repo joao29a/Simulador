@@ -11,4 +11,5 @@ extern Pilha *Stack;
 void Empilhar(Pilha **stack, int valor);
 
 int Desempilhar(Pilha **stack);
+
 #endif

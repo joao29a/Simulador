@@ -2,12 +2,17 @@
 	PUSH A
 	SYS B, 1
 	PUSH B
-	SYS C, 1
-	PUSH C
 	POP D
-	POP E
-	ADD F, D, E
-	POP D
-	MUL A, F, D
-	SYS A, 2
+	POP F
+	MOV A, 2
+cont:
+	MUL F, D, F
+	PUSH F
+	SUB A, A, 1
+	JUMPP cont, A
+	CALL @funcao
+	SYS B, 2
 	EXIT
+@funcao:
+	ADD B, 1P, 2P
+	RET

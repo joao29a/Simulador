@@ -5,6 +5,7 @@
 #include "../hdr/Rotulos.h"
 #include "../hdr/Decodificador.h"
 #include "../hdr/Opcode.h"
+#include "../hdr/Pilha.h"
 
 int decOpcode(char *opcode){
 	int i;
@@ -20,7 +21,7 @@ int decOpcode(char *opcode){
 int decDestino(char *dest){
 	int ascii=dest[0];
 	int valor=0;
-	if (ascii>=97 && ascii<=122)
+	if ((ascii>=97 && ascii<=122) || ascii==64)
 		valor=procurarRotulo(dest,TabelaRotulos);	
 	else {
 		int i;
@@ -34,9 +35,25 @@ int decDestino(char *dest){
 }
 
 int decOperando(char *orig){
+	int tamanho=strlen(orig);
 	int ascii=orig[0];
 	int valor=0;
-	if (ascii>=65 && ascii<=90){
+	if (tamanho>=2){
+		int pos=0;
+		char numero[tamanho-1];
+		while (pos<tamanho-1){
+			numero[pos]=orig[pos];
+			pos++;
+		}
+		pos=atoi(numero);
+		Pilha *temp;
+		temp=Stack;
+		int i;
+		for (i=0;i<pos;i++)
+			temp=temp->ant;
+		valor=temp->num;
+	}
+	else if (ascii>=65 && ascii<=90){
 		int i;
 		for (i=0;i<QTD_REG;i++)
 			if (strcmp(orig,registrador[i].reg)==0){
