@@ -38,7 +38,7 @@ int decOperando(char *orig){
 	int tamanho=strlen(orig);
 	int ascii=orig[0];
 	int valor=0;
-	if (tamanho>=2){
+	if (tamanho>=2 && orig[tamanho-1]=='P'){
 		int pos=0;
 		char numero[tamanho-1];
 		while (pos<tamanho-1){
