@@ -111,11 +111,10 @@ void inserirPrograma(){
 	if (Arquivo!=NULL){
 		selecionarRotulos(Arquivo,&TabelaRotulos);
 		rewind(Arquivo);
-		PCLeituraArquivo=0;
-		LeituraArquivo(Arquivo,MainMemory);
+		LeituraArquivo(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
 		IniciarExecucao(PC-1);	
-		//MostraMemoriaCode(MainMemory);
+		MostraMemoriaCode(MainMemory);
 		//mostraRegistradores(registrador);
 	}
 	else

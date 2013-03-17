@@ -7,9 +7,8 @@
 #define TAM_LINHA_MAX 20
 
 extern int PCRotulos;
-extern int PCLeituraArquivo;
 
-void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory);
+void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, int PC);
 
 int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2);
 

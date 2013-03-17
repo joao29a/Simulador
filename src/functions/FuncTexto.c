@@ -7,9 +7,8 @@
 #include "../hdr/Decodificador.h"
 
 int PCRotulos=0;
-int PCLeituraArquivo=0;
 
-void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
+void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, int PC){
 	char palavra[TAM_LINHA_MAX];
 	int rotulo;
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){
@@ -24,9 +23,9 @@ void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory){
 		removerLinha(palavra,strlen(palavra)-1);
 		rotulo=lerLinha(palavra,opcode,dest,orig1,orig2);
 		if (rotulo==0){
-			CarregarMemoriaCode(MainMemory,PCLeituraArquivo,decOpcode(opcode),decDestino(dest),
+			CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decDestino(dest),
 					orig1,orig2);
-			PCLeituraArquivo++;
+			PC++;
 		}
 	}
 }
@@ -77,12 +76,12 @@ void selecionarRotulos(FILE *Arquivo, Rotulos **rot){
 		if (palavra[0]!='\t' && palavra[0]!='@')
 			armazenarRotulo(palavra,&*rot,PCRotulos);
 		else if (palavra[0]=='@'){
-			PCLeituraArquivo=PCRotulos;
-			armazenarRotulo(palavra,&*rot,PCRotulos);
+			int PC=PCRotulos;
+			armazenarRotulo(palavra,&*rot,PC);
 			int pos=ftell(Arquivo);
 			selecionarRotulos(Arquivo,&*rot);
 			fseek(Arquivo,pos,SEEK_SET);
-			LeituraArquivo(Arquivo,MainMemory);
+			LeituraArquivo(Arquivo,MainMemory,PC);
 			break;
 		}
 		else
