@@ -15,11 +15,29 @@ cont:
 	SYS C, 2
 	CALL @funcao2
 	SYS F, 2
+	SYS I, 2
+	CALL @funcao3
+	SYS I, 2
 	EXIT
+
 @funcao:
 	ADD C, 300, 200
 	ADD B, 1P, 2P
 	RET
+
 @funcao2:
-	ADD F, 30, 12
+	MOV G, 3
+	MOV I, 2
+cont2:
+	MUL I, I, 2
+	SUB G, G, 1
+	JUMPP cont2, G
+	RET
+
+@funcao3:
+	MOV G, 2
+cont3:
+	DIV I, I, 2
+	SUB G, G, 1
+	JUMPP cont3, G
 	RET

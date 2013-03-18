@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "hdr/FuncTexto.h"
-#include "hdr/Interface.h"
-#include "hdr/Memorias.h"
 #include "hdr/Registradores.h"
+#include "hdr/Memorias.h"
+#include "hdr/Interface.h"
 #include "hdr/Rotulos.h"
 #include "hdr/Decodificador.h"
 #include "hdr/Opcode.h"
@@ -81,7 +81,8 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			break;
 		case 18:
 			PC=-1;
-			printf("Programa encerrado...\n");
+			printf("Program finished, press enter to continue...\n");
+			while (getchar()!='\r' && getchar()!='\n');
 			break;
 	}
 }
@@ -95,17 +96,19 @@ void BuscaInstrucao(MemoriaCode *memory, int endereco){
 }
 
 void IniciarExecucao(int TamanhoPrograma){
-	for (PC=0;PC<=TamanhoPrograma;PC++){
+	for (PC=0;PC<TamanhoPrograma;PC++){
 		BuscaInstrucao(MainMemory,PC);
 		if (PC==-1)
 			break;
 	}
+	if (PC!=-1)
+		printf("ERROR! SEGMENTATION FAULT!\n\n");
 	free(Stack);
 }
 
 void inserirPrograma(){
 	char *programa=(char*)malloc(255*sizeof(char));
-	printf("Nome do programa: ");
+	printf("\nProgram's name: ");
 	scanf("%s",programa);
 	FILE *Arquivo=fopen(programa,"r");
 	if (Arquivo!=NULL){
@@ -113,18 +116,18 @@ void inserirPrograma(){
 		rewind(Arquivo);
 		LeituraArquivo(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
-		IniciarExecucao(PC-1);	
-		MostraMemoriaCode(MainMemory);
-		//mostraRegistradores(registrador);
+		IniciarExecucao(PC);
+		//MostraMemoriaCode(MainMemory);
+		//MostraRegistradores(registrador);
 	}
 	else
-		printf("Arquivo nao encontrado\n");
+		printf("File not found!\n\n");
 }
 
 int main(){
 	IniciarMemoriaCode(MainMemory);
 	atribuirLetrasReg(registrador);
 	iniciarTabelaRotulo(&TabelaRotulos);
-	inserirPrograma();	
+	inserirPrograma();
 	return 0;
 }

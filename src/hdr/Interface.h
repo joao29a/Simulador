@@ -5,5 +5,6 @@
 
 void MostraMemoriaCode(MemoriaCode memory[]);
 
-void MostraRegistadores(Registradores reg[]);
+void MostraRegistradores(Registradores reg[]);
+
 #endif
