@@ -50,7 +50,7 @@ int decOperando(char *orig){
 		temp=Stack;
 		int i;
 		for (i=0;i<pos;i++)
-			temp=temp->ant;
+			temp=temp->prox;
 		valor=temp->num;
 	}
 	else if (ascii>=65 && ascii<=90){

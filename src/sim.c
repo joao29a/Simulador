@@ -57,13 +57,13 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 				PC=dest-1;
 			break;
 		case 13:
-			Empilhar(&Stack,registrador[dest].inteiro);
+			Empilhar(registrador[dest].inteiro);
 			break;
 		case 14:
-			registrador[dest].inteiro=Desempilhar(&Stack);
+			registrador[dest].inteiro=Desempilhar();
 			break;
 		case 15:
-			Empilhar(&Stack,PC);
+			Empilhar(PC);
 			PC=dest-1;
 			break;
 		case 16:
@@ -77,7 +77,7 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			}
 			break;
 		case 17:
-			PC=Desempilhar(&Stack);
+			PC=Desempilhar();
 			break;
 		case 18:
 			PC=-1;
@@ -126,6 +126,7 @@ void inserirPrograma(){
 
 int main(){
 	IniciarMemoriaCode(MainMemory);
+	IniciarPilha();
 	atribuirLetrasReg(registrador);
 	iniciarTabelaRotulo(&TabelaRotulos);
 	inserirPrograma();
