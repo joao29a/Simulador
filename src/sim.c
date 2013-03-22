@@ -104,6 +104,7 @@ void IniciarExecucao(int TamanhoPrograma){
 	if (PC!=-1)
 		printf("ERROR! SEGMENTATION FAULT!\n\n");
 	free(Stack);
+	free(TabelaRotulos);
 }
 
 void inserirPrograma(){
