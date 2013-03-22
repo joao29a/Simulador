@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../hdr/Memorias.h"
 
+MemoriaData *DataMemory;
 MemoriaCode MainMemory[TAM_MEM];
 
 void IniciarMemoriaCode(MemoriaCode *memory){
@@ -15,10 +16,13 @@ void IniciarMemoriaCode(MemoriaCode *memory){
      }
 }
 
-//carrega instruções do txt que ja foram convertidas para int para a memoria
 void CarregarMemoriaCode(MemoriaCode *memory, int endereco, int opcode, int dest, char *orig1, char *orig2){
 	memory[endereco].opcode=opcode;
      	memory[endereco].destino=dest;
      	strcpy(memory[endereco].operando1,orig1);
 	strcpy(memory[endereco].operando2,orig2);
+}
+
+void IniciarMemoriaData(){
+	DataMemory=NULL;
 }

@@ -3,6 +3,15 @@
 
 #define TAM_MEM 256
 
+typedef struct MemoriaData{
+	int pos;
+	int numero;
+	char letra;
+	struct MemoriaData *prox;
+}MemoriaData;
+
+extern MemoriaData *DataMemory;
+
 typedef struct MemoriaCode{
         int opcode;
         int destino;

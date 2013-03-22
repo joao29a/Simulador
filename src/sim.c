@@ -126,6 +126,7 @@ void inserirPrograma(){
 }
 
 int main(){
+	IniciarMemoriaData();
 	IniciarMemoriaCode(MainMemory);
 	IniciarPilha();
 	atribuirLetrasReg(registrador);
