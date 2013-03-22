@@ -12,6 +12,15 @@ void MostraMemoriaCode(MemoriaCode memory[]){
      printf("\n");
 }
 
+void MostraMemoriaData(){
+	MemoriaData *aux;
+	aux=DataMemory;
+	while (aux!=NULL){
+		printf("Rotulo: %s\nPCData: %d\nValor: %d\nTipo: %c\n\n",aux->rotulo,aux->pos,aux->inteiro,aux->tipo);
+		aux=aux->prox;
+	}
+}
+
 void MostraRegistradores(Registradores reg[]){
 	int i;
 	for (i=0;i<QTD_REG;i++){

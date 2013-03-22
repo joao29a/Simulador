@@ -5,12 +5,24 @@
 
 typedef struct MemoriaData{
 	int pos;
-	int numero;
-	char letra;
+	int inteiro;
+	char *rotulo;
+	char caractere;
+	char tipo;
 	struct MemoriaData *prox;
 }MemoriaData;
 
 extern MemoriaData *DataMemory;
+
+extern int PCData;
+
+void IniciarMemoriaData();
+
+void CarregarMemoriaData(char *rotulo, char *tipo, char *dado);
+
+int ProcurarRotuloMemoriaData(char *origem);
+
+int ProcurarValorMemoriaData(int pos);
 
 typedef struct MemoriaCode{
         int opcode;
@@ -26,5 +38,4 @@ void IniciarMemoriaCode(MemoriaCode *memory);
 
 void CarregarMemoriaCode(MemoriaCode *memory, int endereco, int opcode, int dest, char *orig1, char *orig2);
 
-void IniciarMemoriaData();
 #endif

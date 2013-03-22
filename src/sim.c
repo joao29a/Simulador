@@ -18,7 +18,7 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			registrador[dest].inteiro=B;
 			break;
 		case 1:
-			//LD
+			registrador[dest].inteiro=ProcurarValorMemoriaData(B);
 			break;
 		case 2:
 			//ST
@@ -120,6 +120,7 @@ void inserirPrograma(){
 		LeituraMemoriaCode(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
 		IniciarExecucao(PC);
+		MostraMemoriaData();
 		//MostraMemoriaCode(MainMemory);
 		//MostraRegistradores(registrador);
 	}
