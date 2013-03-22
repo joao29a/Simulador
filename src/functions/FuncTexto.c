@@ -41,15 +41,16 @@ void LeituraMemoriaCode(FILE *Arquivo, MemoriaCode *MainMemory, int PC){
 		removerLinha(palavra,strlen(palavra)-1);
 		rotulo=lerLinha(palavra,opcode,dest,orig1,orig2);
 		if (rotulo==0){
-			if (decOpcode(opcode)==1){
-				int origem=ProcurarRotuloMemoriaData(orig1);
-				sprintf(orig1,"%d",origem);
+			if (decOpcode(opcode)==2){
+				int destino=ProcurarRotuloMemoriaData(dest);
+				CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),destino,orig1,orig2);
+			} else {
+				if (decOpcode(opcode)==1){
+					int origem=ProcurarRotuloMemoriaData(orig1);
+					sprintf(orig1,"%d",origem);
+				}
+				CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decDestino(dest),orig1,orig2);
 			}
-			/*else if (decOpcode(opcode)==2){
-			
-			}*/
-			CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decDestino(dest),
-					orig1,orig2);
 			PC++;
 		}
 	}

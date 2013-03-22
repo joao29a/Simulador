@@ -24,6 +24,8 @@ int ProcurarRotuloMemoriaData(char *origem);
 
 int ProcurarValorMemoriaData(int pos);
 
+void ArmazenarValorMemoriaData(int pos, int valor);
+
 typedef struct MemoriaCode{
         int opcode;
         int destino;

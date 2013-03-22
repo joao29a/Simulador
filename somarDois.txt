@@ -5,6 +5,7 @@
 	LD A, valor1
 	LD B, valor2
 	ADD C, A, B
+	ST valor1, C
 	SYS A, 2
 	SYS B, 2
 	SYS C, 2

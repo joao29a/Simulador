@@ -21,7 +21,7 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			registrador[dest].inteiro=ProcurarValorMemoriaData(B);
 			break;
 		case 2:
-			//ST
+			ArmazenarValorMemoriaData(dest,B);
 			break;
 		case 3:
 			registrador[dest].inteiro=B+C;
@@ -119,6 +119,7 @@ void inserirPrograma(){
 		fseek(Arquivo,pos,SEEK_SET);
 		LeituraMemoriaCode(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
+		MostraMemoria();
 		IniciarExecucao(PC);
 		MostraMemoria();
 	}
@@ -133,5 +134,6 @@ int main(){
 	atribuirLetrasReg(registrador);
 	iniciarTabelaRotulo();
 	inserirPrograma();
+	free(DataMemory);
 	return 0;
 }

@@ -75,3 +75,11 @@ int ProcurarValorMemoriaData(int pos){
 		aux=aux->prox;
 	return aux->inteiro;
 }
+
+void ArmazenarValorMemoriaData(int pos, int valor){
+	MemoriaData *aux;
+	aux=DataMemory;
+	while (aux->pos!=pos)
+		aux=aux->prox;
+	aux->inteiro=valor;
+}
