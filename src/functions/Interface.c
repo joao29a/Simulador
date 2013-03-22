@@ -4,21 +4,20 @@
 #include "../hdr/Memorias.h"
 #include "../hdr/Registradores.h"
 
-void MostraMemoriaCode(MemoriaCode memory[]){
-     int i;
-     printf("Memoria:\n");
-     for (i=0;i<TAM_MEM;i++)
-         printf("%03d - %d%d%s%s\n",i,memory[i].opcode,memory[i].destino,memory[i].operando1,memory[i].operando2);
-     printf("\n");
-}
-
-void MostraMemoriaData(){
+     
+void MostraMemoria(){
 	MemoriaData *aux;
 	aux=DataMemory;
+     	printf("Memoria:\n");
 	while (aux!=NULL){
-		printf("Rotulo: %s\nPCData: %d\nValor: %d\nTipo: %c\n\n",aux->rotulo,aux->pos,aux->inteiro,aux->tipo);
+		printf("%03d - %d\n",aux->pos,aux->inteiro);
 		aux=aux->prox;
 	}
+	int i;
+     	for (i=0;i<TAM_MEM;i++)
+         	printf("%03d - %d%d%s%s\n",i+PCData,MainMemory[i].opcode,MainMemory[i].destino,MainMemory[i].operando1,
+				MainMemory[i].operando2);
+     	printf("\n");
 }
 
 void MostraRegistradores(Registradores reg[]){

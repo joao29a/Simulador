@@ -3,9 +3,7 @@
 #include "Memorias.h"
 #include "Registradores.h"
 
-void MostraMemoriaCode(MemoriaCode memory[]);
-
-void MostraMemoriaData();
+void MostraMemoria();
 
 void MostraRegistradores(Registradores reg[]);
 

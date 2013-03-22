@@ -120,9 +120,7 @@ void inserirPrograma(){
 		LeituraMemoriaCode(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
 		IniciarExecucao(PC);
-		MostraMemoriaData();
-		//MostraMemoriaCode(MainMemory);
-		//MostraRegistradores(registrador);
+		MostraMemoria();
 	}
 	else
 		printf("File not found!\n\n");
