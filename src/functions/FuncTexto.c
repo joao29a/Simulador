@@ -8,7 +8,25 @@
 
 int PCRotulos=0;
 
-void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, int PC){
+void LeituraMemoriaData(FILE *Arquivo){
+	char palavra[TAM_LINHA_MAX];
+	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){
+		removerLinha(palavra,strlen(palavra)-1);
+		if (strcmp(palavra,".code:")==0)
+			break;
+		lerLinhaData(palavra);
+	}
+}
+
+void lerLinhaData(char *palavra){
+	if (palavra[0]=='\t'){
+		char rotulo[TAM_LINHA_MAX], tipo[TAM_LINHA_MAX], dado[TAM_LINHA_MAX];
+		sscanf(palavra,"%s%s %[^\n]",rotulo,tipo,dado);
+		printf("rotulos: %s\ntipo: %s\ndado: %s\n",rotulo,tipo,dado);
+	}
+}
+
+void LeituraMemoriaCode(FILE *Arquivo, MemoriaCode *MainMemory, int PC){
 	char palavra[TAM_LINHA_MAX];
 	int rotulo;
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){
@@ -81,7 +99,7 @@ void selecionarRotulos(FILE *Arquivo){
 			int pos=ftell(Arquivo);
 			selecionarRotulos(Arquivo);
 			fseek(Arquivo,pos,SEEK_SET);
-			LeituraArquivo(Arquivo,MainMemory,PC);
+			LeituraMemoriaCode(Arquivo,MainMemory,PC);
 			break;
 		}
 		else

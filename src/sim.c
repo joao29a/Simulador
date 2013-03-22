@@ -113,9 +113,11 @@ void inserirPrograma(){
 	scanf("%s",programa);
 	FILE *Arquivo=fopen(programa,"r");
 	if (Arquivo!=NULL){
+		LeituraMemoriaData(Arquivo);
+		int pos=ftell(Arquivo);
 		selecionarRotulos(Arquivo);
-		rewind(Arquivo);
-		LeituraArquivo(Arquivo,MainMemory,PC);
+		fseek(Arquivo,pos,SEEK_SET);
+		LeituraMemoriaCode(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
 		IniciarExecucao(PC);
 		//MostraMemoriaCode(MainMemory);

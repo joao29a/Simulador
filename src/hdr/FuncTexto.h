@@ -4,11 +4,15 @@
 #include "Memorias.h"
 #include "Rotulos.h"
 
-#define TAM_LINHA_MAX 20
+#define TAM_LINHA_MAX 255
 
 extern int PCRotulos;
 
-void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, int PC);
+void LeituraMemoriaData(FILE *Arquivo);
+
+void lerLinhaData(char *palavra);
+
+void LeituraMemoriaCode(FILE *Arquivo, MemoriaCode *MainMemory, int PC);
 
 int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2);
 

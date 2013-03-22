@@ -25,4 +25,6 @@ extern MemoriaCode MainMemory[TAM_MEM];
 void IniciarMemoriaCode(MemoriaCode *memory);
 
 void CarregarMemoriaCode(MemoriaCode *memory, int endereco, int opcode, int dest, char *orig1, char *orig2);
+
+void IniciarMemoriaData();
 #endif

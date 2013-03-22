@@ -1,3 +1,7 @@
+.data:
+	valor1: .int 50
+	imprimir: .ascii "Hello World!"
+.code:
 	SYS A, 1
 	MOV B, A
 	SUB B, B, 1

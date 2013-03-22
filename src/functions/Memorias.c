@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../hdr/Memorias.h"
+#include "../hdr/FuncTexto.h"
 
 MemoriaData *DataMemory;
 MemoriaCode MainMemory[TAM_MEM];
@@ -11,8 +12,8 @@ void IniciarMemoriaCode(MemoriaCode *memory){
      for (i=0;i<TAM_MEM;i++){
          memory[i].opcode=0;
          memory[i].destino=0;
-         memory[i].operando1=malloc(sizeof(char));
-         memory[i].operando2=malloc(sizeof(char));
+         memory[i].operando1=malloc(sizeof(char)*TAM_LINHA_MAX);
+         memory[i].operando2=malloc(sizeof(char)*TAM_LINHA_MAX);
      }
 }
 
