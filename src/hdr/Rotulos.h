@@ -9,9 +9,9 @@ typedef struct rotulos{
 
 extern Rotulos *TabelaRotulos;
 
-void iniciarTabelaRotulo(Rotulos **rot);
+void iniciarTabelaRotulo();
 
-void armazenarRotulo(char *palavra, Rotulos **rot, int PC);
+void armazenarRotulo(char *palavra, int PC);
 
-int procurarRotulo(char *palavra, Rotulos *rot);
+int procurarRotulo(char *palavra);
 #endif

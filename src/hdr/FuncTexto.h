@@ -12,7 +12,7 @@ void LeituraArquivo(FILE *Arquivo, MemoriaCode *MainMemory, int PC);
 
 int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2);
 
-void selecionarRotulos(FILE *Arquvo, Rotulos **rot);
+void selecionarRotulos(FILE *Arquvo);
 
 void removerLinha(char *palavra, int pos);
 

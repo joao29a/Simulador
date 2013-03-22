@@ -5,22 +5,22 @@
 
 Rotulos *TabelaRotulos;
 
-void iniciarTabelaRotulo(Rotulos **rot){
-	(*rot)=NULL;
+void iniciarTabelaRotulo(){
+	TabelaRotulos=NULL;
 }
 
-void armazenarRotulo(char *palavra, Rotulos **rot, int PC){
+void armazenarRotulo(char *palavra, int PC){
 	Rotulos *aux;
 	int tamanho=strlen(palavra);
 	palavra[tamanho-1]='\0';
-	aux=(*rot);
+	aux=TabelaRotulos;
 	if (aux==NULL){
 		aux=malloc(sizeof(Rotulos));
-		aux->rotulo=malloc(sizeof(char));
+		aux->rotulo=malloc(sizeof(char)*tamanho);
 		strcpy(aux->rotulo,palavra);
 		aux->pos=PC;
 		aux->prox=NULL;
-		(*rot)=aux;
+		TabelaRotulos=aux;
 	}
 	else{
 		while (aux->prox!=NULL){
@@ -28,16 +28,16 @@ void armazenarRotulo(char *palavra, Rotulos **rot, int PC){
 		}
 		aux->prox=malloc(sizeof(Rotulos));
 		aux=aux->prox;
-		aux->rotulo=malloc(sizeof(char));
+		aux->rotulo=malloc(sizeof(char)*tamanho);
 		strcpy(aux->rotulo,palavra);
 		aux->pos=PC;
 		aux->prox=NULL;
 	}
 }
 
-int procurarRotulo(char *palavra, Rotulos *rot){
+int procurarRotulo(char *palavra){
 	Rotulos *aux;
-	aux=rot;
+	aux=TabelaRotulos;
 	while (strcmp(aux->rotulo,palavra)!=0)
 		aux=aux->prox;
 	return aux->pos;

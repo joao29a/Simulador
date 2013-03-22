@@ -22,7 +22,7 @@ int decDestino(char *dest){
 	int ascii=dest[0];
 	int valor=0;
 	if ((ascii>=97 && ascii<=122) || ascii==64)
-		valor=procurarRotulo(dest,TabelaRotulos);	
+		valor=procurarRotulo(dest);	
 	else {
 		int i;
 		for (i=0;i<QTD_REG;i++)

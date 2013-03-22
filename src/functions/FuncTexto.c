@@ -69,17 +69,17 @@ int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
 	return rotulo;
 }
 
-void selecionarRotulos(FILE *Arquivo, Rotulos **rot){
+void selecionarRotulos(FILE *Arquivo){
 	char palavra[TAM_LINHA_MAX];
 	while (fgets(palavra,TAM_LINHA_MAX,Arquivo)!=NULL){	
 		removerLinha(palavra,strlen(palavra)-1);
 		if (palavra[0]!='\t' && palavra[0]!='@')
-			armazenarRotulo(palavra,&*rot,PCRotulos);
+			armazenarRotulo(palavra,PCRotulos);
 		else if (palavra[0]=='@'){
 			int PC=PCRotulos;
-			armazenarRotulo(palavra,&*rot,PC);
+			armazenarRotulo(palavra,PC);
 			int pos=ftell(Arquivo);
-			selecionarRotulos(Arquivo,&*rot);
+			selecionarRotulos(Arquivo);
 			fseek(Arquivo,pos,SEEK_SET);
 			LeituraArquivo(Arquivo,MainMemory,PC);
 			break;

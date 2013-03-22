@@ -112,7 +112,7 @@ void inserirPrograma(){
 	scanf("%s",programa);
 	FILE *Arquivo=fopen(programa,"r");
 	if (Arquivo!=NULL){
-		selecionarRotulos(Arquivo,&TabelaRotulos);
+		selecionarRotulos(Arquivo);
 		rewind(Arquivo);
 		LeituraArquivo(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
@@ -128,7 +128,7 @@ int main(){
 	IniciarMemoriaCode(MainMemory);
 	IniciarPilha();
 	atribuirLetrasReg(registrador);
-	iniciarTabelaRotulo(&TabelaRotulos);
+	iniciarTabelaRotulo();
 	inserirPrograma();
 	return 0;
 }
