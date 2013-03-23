@@ -120,10 +120,10 @@ void IniciarExecucao(int TamanhoPrograma){
 	free(TabelaRotulos);
 }
 
-void inserirPrograma(){
-	char *programa=(char*)malloc(255*sizeof(char));
-	printf("\nProgram's name: ");
-	scanf("%s",programa);
+void inserirPrograma(char *programa){
+	//char *programa=(char*)malloc(255*sizeof(char));
+	//printf("\nProgram's name: ");
+	//scanf("%s",programa);
 	FILE *Arquivo=fopen(programa,"r");
 	if (Arquivo!=NULL){
 		LeituraMemoriaData(Arquivo);
@@ -137,16 +137,19 @@ void inserirPrograma(){
 		//MostraMemoria();
 	}
 	else
-		printf("File not found!\n\n");
+		printf("File not found!\n");
 }
 
-int main(){
-	IniciarMemoriaData();
-	IniciarMemoriaCode(MainMemory);
-	IniciarPilha();
-	atribuirLetrasReg(registrador);
-	iniciarTabelaRotulo();
-	inserirPrograma();
-	free(DataMemory);
+int main(int argc, char *argv[]){
+	if (argc > 1){
+		IniciarMemoriaData();
+		IniciarMemoriaCode(MainMemory);
+		IniciarPilha();
+		atribuirLetrasReg(registrador);
+		iniciarTabelaRotulo();
+		inserirPrograma(argv[1]);
+		free(DataMemory);
+	} else
+		printf("There is no program to execute!\n");
 	return 0;
 }
