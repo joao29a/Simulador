@@ -72,7 +72,20 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 					scanf("%d",&registrador[dest].inteiro);
 					break;
 				case 2:
-					printf("%d\n",registrador[dest].inteiro);
+					if (MainMemory[PC].address=='R')
+						printf("%d\n",registrador[dest].inteiro);
+					else{
+						MemoriaData *aux;
+						aux=DataMemory;
+						while (aux->pos!=dest)
+							aux=aux->prox;
+						MemoriaData *buffer;
+						buffer=aux;
+						while (aux!=NULL && (strcmp(aux->rotulo,buffer->rotulo)==0)){
+							printf("%c",aux->string);
+							aux=aux->prox;
+						}
+					}							
 					break;
 			}
 			break;
@@ -121,7 +134,7 @@ void inserirPrograma(){
 		PC=PCRotulos;
 		MostraMemoria();
 		IniciarExecucao(PC);
-		MostraMemoria();
+		//MostraMemoria();
 	}
 	else
 		printf("File not found!\n\n");

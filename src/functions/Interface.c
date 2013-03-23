@@ -10,7 +10,16 @@ void MostraMemoria(){
 	aux=DataMemory;
      	printf("Memoria:\n");
 	while (aux!=NULL){
-		printf("%03d - %d\n",aux->pos,aux->inteiro);
+		if (aux->tipo=='s'){
+			if (aux->string=='\n')
+				printf("%03d - \\n\n",aux->pos);
+			else if (aux->string=='\t')
+				printf("%03d - \\t\n",aux->pos);
+			else
+				printf("%03d - %c\n",aux->pos,aux->string);
+		}
+		else
+			printf("%03d - %d\n",aux->pos,aux->inteiro);
 		aux=aux->prox;
 	}
 	int i;

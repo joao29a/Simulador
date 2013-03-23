@@ -44,11 +44,19 @@ void LeituraMemoriaCode(FILE *Arquivo, MemoriaCode *MainMemory, int PC){
 			if (decOpcode(opcode)==2){
 				int destino=ProcurarRotuloMemoriaData(dest);
 				CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),destino,orig1,orig2);
-			} else {
+			}
+			else if (decOpcode(opcode)==16 && strlen(dest)>1){
+				MainMemory[PC].address='M';
+				int destino=ProcurarRotuloMemoriaData(dest);
+				CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),destino,orig1,orig2);
+			}
+			else {
 				if (decOpcode(opcode)==1){
 					int origem=ProcurarRotuloMemoriaData(orig1);
 					sprintf(orig1,"%d",origem);
 				}
+				else if (decOpcode(opcode)==16)
+					MainMemory[PC].address='R';
 				CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),decDestino(dest),orig1,orig2);
 			}
 			PC++;

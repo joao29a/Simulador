@@ -1,5 +1,9 @@
 .data:
+	insirir: .ascii "Programa para calcular fatorial\n"
+	numero: .ascii "Insira um numero: "
 .code:
+	SYS insirir, 2
+	SYS numero, 2
 	SYS A, 1
 	MOV B, A
 	SUB B, B, 1

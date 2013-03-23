@@ -1,12 +1,21 @@
 .data:
+	primeiro: .ascii "Insira o primeiro elemento: "
+	segundo: .ascii "Insira o segundo elemento: "
+	maior: .ascii "Maior: "
+	quebrar: .ascii "\n"
 .code:
+	SYS primeiro, 2
 	SYS A, 1
+	SYS segundo, 2
 	SYS B, 1
 	SUB C, A, B
 	JUMPP amaior, C
+	SYS maior, 2
 	SYS B, 2
 	JUMP fim
 amaior:
+	SYS maior, 2
 	SYS A, 2
 fim:
+	SYS quebrar, 2
 	EXIT

@@ -7,7 +7,7 @@ typedef struct MemoriaData{
 	int pos;
 	int inteiro;
 	char *rotulo;
-	char caractere;
+	char string;
 	char tipo;
 	struct MemoriaData *prox;
 }MemoriaData;
@@ -20,6 +20,8 @@ void IniciarMemoriaData();
 
 void CarregarMemoriaData(char *rotulo, char *tipo, char *dado);
 
+void alocarDataMemory(char tipo, char *dado, char *rotulo, char dataChar, int tamanho);
+
 int ProcurarRotuloMemoriaData(char *origem);
 
 int ProcurarValorMemoriaData(int pos);
@@ -31,7 +33,7 @@ typedef struct MemoriaCode{
         int destino;
         char *operando1;
         char *operando2;
-        
+ 	char address;       
 }MemoriaCode;
 
 extern MemoriaCode MainMemory[TAM_MEM];

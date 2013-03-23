@@ -1,0 +1,6 @@
+.data:
+	hello: .ascii "Hello World!\n"
+	teste: .int 48
+.code:
+	SYS hello, 2
+	EXIT
