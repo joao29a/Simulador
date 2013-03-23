@@ -39,8 +39,8 @@ void LeituraMemoriaCode(FILE *Arquivo, MemoriaCode *MainMemory, int PC){
 		resetarBuffer(orig1);
 		resetarBuffer(orig2);
 		removerLinha(palavra,strlen(palavra)-1);
-		rotulo=lerLinha(palavra,opcode,dest,orig1,orig2);
-		if (rotulo==0){
+		rotulo=lerLinhaCode(palavra,opcode,dest,orig1,orig2);
+		if (!rotulo){
 			if (decOpcode(opcode)==2){
 				int destino=ProcurarRotuloMemoriaData(dest);
 				CarregarMemoriaCode(MainMemory,PC,decOpcode(opcode),destino,orig1,orig2);
@@ -64,41 +64,14 @@ void LeituraMemoriaCode(FILE *Arquivo, MemoriaCode *MainMemory, int PC){
 	}
 }
 
-int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
-	int i, k=0, parte=0, rotulo=1;
+int lerLinhaCode(char *palavra, char *opcode, char *dest, char *orig1, char *orig2){
+	int rotulo=1;
 	if (palavra[0]=='\t'){
 		rotulo=0;
-		int tamanho=strlen(palavra);
-		for (i=1;i<=tamanho;i++){
-			if (palavra[i]!=' ' && parte==0)
-				opcode[k++]=palavra[i];
-			else if (palavra[i]!=',' && parte==1 && palavra[i]!='\0')
-				dest[k++]=palavra[i];
-			else if (palavra[i]!=',' && parte==2 && palavra[i]!='\0') 
-				orig1[k++]=palavra[i];
-			else if (parte==3 && palavra[i]!='\0')
-				orig2[k++]=palavra[i];
-			if (palavra[i]==' ' || palavra[i]=='\0' || palavra[i]==','){
-				switch(parte){
-					case 0:
-						opcode[k]='\0';
-						break;
-					case 1:
-						dest[k]='\0';
-						break;
-					case 2:
-						orig1[k]='\0';
-						break;
-					case 3:
-						orig2[k]='\0';
-						break;
-				}
-				if (palavra[i]==',')
-					i++;
-				parte++;
-				k=0;
-			}
-		}
+		sscanf(palavra,"%s %s %s %s",opcode,dest,orig1,orig2);
+		sscanf(dest,"%[^,\n]",dest);
+		sscanf(orig1,"%[^,\n]",orig1);
+		sscanf(orig2,"%[^,\n]",orig2);
 	}
 	return rotulo;
 }

@@ -14,7 +14,7 @@ void lerLinhaData(char *palavra);
 
 void LeituraMemoriaCode(FILE *Arquivo, MemoriaCode *MainMemory, int PC);
 
-int lerLinha(char *palavra, char *opcode, char *dest, char *orig1, char *orig2);
+int lerLinhaCode(char *palavra, char *opcode, char *dest, char *orig1, char *orig2);
 
 void selecionarRotulos(FILE *Arquvo);
 
