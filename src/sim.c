@@ -82,7 +82,10 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 						MemoriaData *buffer;
 						buffer=aux;
 						while (aux!=NULL && (strcmp(aux->rotulo,buffer->rotulo)==0)){
-							printf("%c",aux->string);
+							if (aux->tipo=='s')
+								printf("%c",aux->string);
+							else
+								printf("%d\n",aux->inteiro);
 							aux=aux->prox;
 						}
 					}							
@@ -94,8 +97,8 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			break;
 		case 18:
 			PC=-1;
-			printf("Program finished, press enter to continue...\n");
-			while (getchar()!='\r' && getchar()!='\n');
+			//printf("Program finished, press enter to continue...");
+			//while (getchar()!='\r' && getchar()!='\n');
 			break;
 	}
 }
@@ -115,7 +118,7 @@ void IniciarExecucao(int TamanhoPrograma){
 			break;
 	}
 	if (PC!=-1)
-		printf("ERROR! SEGMENTATION FAULT!\n\n");
+		printf("ERROR! SEGMENTATION FAULT!\n");
 	free(Stack);
 	free(TabelaRotulos);
 }
@@ -132,7 +135,7 @@ void inserirPrograma(char *programa){
 		fseek(Arquivo,pos,SEEK_SET);
 		LeituraMemoriaCode(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
-		MostraMemoria();
+		//MostraMemoria();
 		IniciarExecucao(PC);
 		//MostraMemoria();
 	}

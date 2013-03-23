@@ -53,9 +53,7 @@ fim:
 
 @imprimir:
 	SYS maior, 2
-	LD G, nmaior
-	SYS G, 2
+	SYS nmaior, 2
 	SYS menor, 2
-	LD G, nmenor
-	SYS G, 2
+	SYS nmenor, 2
 	RET
