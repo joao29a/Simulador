@@ -1,9 +1,9 @@
 Simulador de Assembly Genérico
 
 Integrantes:
-	- João Almeida de Jesus
-	- Lucas Georges Helai
-	- Rodrigo Bico Maller
+- João Almeida de Jesus
+- Lucas Georges Helai
+- Rodrigo Bico Maller
 
 Caso criarem algum arquivo .c novo alterem o makefile para o gcc compilar tal arquivo.
 
@@ -14,12 +14,12 @@ Compilação:
 Execução:
 
 - Parâmetros:
-	-e (executar)
-	-es (executar step-by-step)
-	-m (mostra todas as memórias)
-	-md (mostra memória de dados)
-	-mi (mostra memória de instrução)
-	-r (mostra registradores)
+	- -e (executar)
+	- -es (executar step-by-step)
+	- -m (mostra todas as memórias)
+	- -md (mostra memória de dados)
+	- -mi (mostra memória de instrução)
+	- -r (mostra registradores)
 - Exemplo:
 	- ./simular (nome-do-arquivo) -e -m
 		- O simulador irá executar as instruções do arquivo, e depois da execução irá mostrar todas as memórias.
