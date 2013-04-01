@@ -6,9 +6,14 @@
 
      
 void MostraMemoria(){
+     	printf("####### Memoria #######\n");
+	MostraDataMemory();
+	MostraMainMemory();	
+}
+
+void MostraDataMemory(){
 	MemoriaData *aux;
 	aux=DataMemory;
-     	printf("Memoria:\n");
 	while (aux!=NULL){
 		if (aux->tipo=='s'){
 			if (aux->string=='\n')
@@ -22,20 +27,20 @@ void MostraMemoria(){
 			printf("%03d - %d\n",aux->pos,aux->inteiro);
 		aux=aux->prox;
 	}
-	int i;
-     	for (i=0;i<TAM_MEM;i++)
-         	printf("%03d - %d%d%s%s\n",i+PCData,MainMemory[i].opcode,MainMemory[i].destino,MainMemory[i].operando1,
-				MainMemory[i].operando2);
-     	printf("\n");
 }
 
-void MostraRegistradores(Registradores reg[]){
-	int i;
-	for (i=0;i<QTD_REG;i++){
-		if (reg[i].string!=NULL)
-			printf("%s: %s\n",reg[i].reg,reg[i].string);
-		else
-			printf("%s: %d\n",reg[i].reg,reg[i].inteiro);
-		
+void MostraMainMemory(){
+	int i=0;
+	while (MainMemory[i].state!='F'){
+         	printf("%03d - %d%d%s%s\n",i+PCData,MainMemory[i].opcode,MainMemory[i].destino,MainMemory[i].operando1,
+				MainMemory[i].operando2);
+		i++;
 	}
+}
+
+void MostraRegistradores(){
+     	printf("###### Registradores ######\n");
+	int i;
+	for (i=0;i<QTD_REG;i++)
+		printf("%s: %d\n",registrador[i].reg,registrador[i].inteiro);
 }

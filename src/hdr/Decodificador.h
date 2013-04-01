@@ -3,6 +3,8 @@
 
 int decOpcode(char *opcode);
 
+char* reverseOpcode(int opcode);
+
 int decDestino(char *dest);
 
 int decOperando(char *orig);

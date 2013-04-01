@@ -33,7 +33,8 @@ typedef struct MemoriaCode{
         int destino;
         char *operando1;
         char *operando2;
- 	char address;       
+ 	char address;
+	char state;
 }MemoriaCode;
 
 extern MemoriaCode MainMemory[TAM_MEM];

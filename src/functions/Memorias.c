@@ -15,6 +15,7 @@ void IniciarMemoriaCode(MemoriaCode *memory){
 		memory[i].destino=0;
 		memory[i].operando1=malloc(sizeof(char)*TAM_LINHA_MAX);
 		memory[i].operando2=malloc(sizeof(char)*TAM_LINHA_MAX);
+		memory[i].state='F';
 	}
 }
 
@@ -23,6 +24,7 @@ void CarregarMemoriaCode(MemoriaCode *memory, int endereco, int opcode, int dest
 	memory[endereco].destino=dest;
 	strcpy(memory[endereco].operando1,orig1);
 	strcpy(memory[endereco].operando2,orig2);
+	memory[endereco].state='B';
 }
 
 void IniciarMemoriaData(){

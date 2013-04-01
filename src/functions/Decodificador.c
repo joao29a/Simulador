@@ -18,6 +18,10 @@ int decOpcode(char *opcode){
 	return valor;
 }
 
+char* reverseOpcode(int opcode){
+	return TabelaOpcode[opcode];
+}
+
 int decDestino(char *dest){
 	int ascii=dest[0];
 	int valor=0;

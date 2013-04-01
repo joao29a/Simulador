@@ -38,9 +38,6 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 		case 7:
 			registrador[dest].inteiro=B%C;
 			break;
-		case 8:
-			//DIVR
-			break;
 		case 9:
 			PC=dest-1;
 			break;
@@ -68,9 +65,12 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			break;
 		case 16:
 			switch(B){
-				case 1:
-					scanf("%d",&registrador[dest].inteiro);
+				case 1:{
+					char buffer[50];
+					fgets(buffer,50,stdin);
+					registrador[dest].inteiro=atoi(buffer);
 					break;
+				}
 				case 2:
 					if (MainMemory[PC].address=='R')
 						printf("%d\n",registrador[dest].inteiro);
@@ -79,17 +79,31 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 						aux=DataMemory;
 						while (aux->pos!=dest)
 							aux=aux->prox;
-						MemoriaData *buffer;
-						buffer=aux;
-						while (aux!=NULL && (strcmp(aux->rotulo,buffer->rotulo)==0)){
-							if (aux->tipo=='s')
-								printf("%c",aux->string);
-							else
+						if (aux->tipo=='i'){
+							MemoriaData *buffer;
+							buffer=aux;
+							while (aux!=NULL && (strcmp(aux->rotulo,buffer->rotulo)==0)){
 								printf("%d\n",aux->inteiro);
-							aux=aux->prox;
+								aux=aux->prox;
+							}
 						}
-					}							
+					}
 					break;
+				case 3:{
+					       MemoriaData *aux;
+					       aux=DataMemory;
+					       while (aux->pos!=dest)
+						       aux=aux->prox;
+					       if (aux->tipo=='s'){
+						       MemoriaData *buffer;
+						       buffer=aux;
+						       while (aux!=NULL && (strcmp(aux->rotulo,buffer->rotulo)==0)){
+							       printf("%c",aux->string);
+							       aux=aux->prox;
+						       }
+					       }
+				       }						
+				       break;
 			}
 			break;
 		case 17:
@@ -97,37 +111,40 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			break;
 		case 18:
 			PC=-1;
-			//printf("Program finished, press enter to continue...");
+			//printf("Programa finalizado, pressione enter para continuar...");
 			//while (getchar()!='\r' && getchar()!='\n');
 			break;
 	}
 }
 
-void BuscaInstrucao(MemoriaCode *memory, int endereco){
+void BuscaInstrucao(MemoriaCode *memory, int endereco, char tipo){
 	int op=memory[endereco].opcode;
 	int dest=memory[endereco].destino;
 	int oper1=decOperando(memory[endereco].operando1);
 	int oper2=decOperando(memory[endereco].operando2);
+	if (tipo=='s'){
+		printf("\nPC: %d\n",PC);
+		printf("Instrução: %d%d%s%s\n",memory[endereco].opcode,memory[endereco].destino,
+			memory[endereco].operando1,memory[endereco].operando2);
+		printf("Opcode: %s\n",reverseOpcode(op));
+		while (getchar()!='\n' && getchar()!='\r');
+	}
 	ExecutaInstrucao(op,dest,oper1,oper2);
 }
 
-void IniciarExecucao(int TamanhoPrograma){
+void IniciarExecucao(int TamanhoPrograma, char tipo){
+	printf("###### Simulacao ######\n");
 	for (PC=0;PC<TamanhoPrograma;PC++){
-		BuscaInstrucao(MainMemory,PC);
+		BuscaInstrucao(MainMemory,PC,tipo);
 		if (PC==-1)
 			break;
 	}
-	if (PC!=-1)
-		printf("ERROR! SEGMENTATION FAULT!\n");
 	free(Stack);
 	free(TabelaRotulos);
 }
 
-void inserirPrograma(char *programa){
-	//char *programa=(char*)malloc(255*sizeof(char));
-	//printf("\nProgram's name: ");
-	//scanf("%s",programa);
-	FILE *Arquivo=fopen(programa,"r");
+void inserirPrograma(int argc, char *argv[]){
+	FILE *Arquivo=fopen(argv[1],"r");
 	if (Arquivo!=NULL){
 		LeituraMemoriaData(Arquivo);
 		int pos=ftell(Arquivo);
@@ -135,12 +152,29 @@ void inserirPrograma(char *programa){
 		fseek(Arquivo,pos,SEEK_SET);
 		LeituraMemoriaCode(Arquivo,MainMemory,PC);
 		PC=PCRotulos;
-		//MostraMemoria();
-		IniciarExecucao(PC);
-		//MostraMemoria();
+		int i=2;
+		while (i<argc){
+			if (strcmp(argv[i],"-m")==0)
+				MostraMemoria();
+			else if (strcmp(argv[i],"-md")==0){
+				printf("###### Memoria de Dados ######\n");
+				MostraDataMemory();
+			}
+			else if (strcmp(argv[i],"-mc")==0){
+				printf("###### Memoria de Instrucoes ######\n");
+				MostraMainMemory();
+			}
+			else if (strcmp(argv[i],"-e")==0)
+				IniciarExecucao(PC,'a');
+			else if (strcmp(argv[i],"-es")==0)
+				IniciarExecucao(PC,'s');
+			else if (strcmp(argv[i],"-r")==0)
+				MostraRegistradores(registrador);
+			i++;
+		}
 	}
 	else
-		printf("File not found!\n");
+		printf("Arquivo não encontrado!\n");
 }
 
 int main(int argc, char *argv[]){
@@ -150,9 +184,9 @@ int main(int argc, char *argv[]){
 		IniciarPilha();
 		atribuirLetrasReg(registrador);
 		iniciarTabelaRotulo();
-		inserirPrograma(argv[1]);
+		inserirPrograma(argc,argv);
 		free(DataMemory);
 	} else
-		printf("There is no program to execute!\n");
+		printf("Nao ha programa para ser simulado!\n");
 	return 0;
 }
