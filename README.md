@@ -18,7 +18,7 @@ Execução:
 	- -es (executar step-by-step)
 	- -m (mostra todas as memórias)
 	- -md (mostra memória de dados)
-	- -mi (mostra memória de instrução)
+	- -mc (mostra memória de instrução)
 	- -r (mostra registradores)
 - Exemplo:
 	- ./simular (nome-do-arquivo) -e -m
