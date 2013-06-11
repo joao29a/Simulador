@@ -1,0 +1,19 @@
+.data:
+	primeiro: .ascii "Insira o primeiro elemento: "
+	segundo: .ascii "Insira o segundo elemento: "
+	maior: .ascii "Maior: "
+.code:
+	SYS primeiro, 3
+	SYS A, 1
+	SYS segundo, 3
+	SYS B, 1
+	SUB C, A, B
+	JUMPP amaior, C
+	SYS maior, 3
+	SYS B, 2
+	JUMP fim
+amaior:
+	SYS maior, 3
+	SYS A, 2
+fim:
+	EXIT

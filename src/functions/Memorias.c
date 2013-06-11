@@ -8,14 +8,14 @@ int PCData=0;
 MemoriaData *DataMemory;
 MemoriaCode MainMemory[TAM_MEM];
 
-void IniciarMemoriaCode(MemoriaCode *memory){
+void IniciarMemoriaCode(){
 	int i;
 	for (i=0;i<TAM_MEM;i++){
-		memory[i].opcode=0;
-		memory[i].destino=0;
-		memory[i].operando1=malloc(sizeof(char)*TAM_LINHA_MAX);
-		memory[i].operando2=malloc(sizeof(char)*TAM_LINHA_MAX);
-		memory[i].state='F';
+		MainMemory[i].opcode=0;
+		MainMemory[i].destino=0;
+		MainMemory[i].operando1=malloc(sizeof(char)*TAM_LINHA_MAX);
+		MainMemory[i].operando2=malloc(sizeof(char)*TAM_LINHA_MAX);
+		MainMemory[i].state='F';
 	}
 }
 
@@ -38,7 +38,7 @@ void alocarDataMemory(char tipo, char *dado, char *rotulo, char dadoChar, int ta
 		DataMemory->rotulo=malloc(sizeof(char)*tamanho);
 		strcpy(DataMemory->rotulo,rotulo);
 		if (tipo=='i')
-			DataMemory->inteiro=atoi(dado);
+			DataMemory->numero=atoi(dado);
 		else
 			DataMemory->string=dadoChar;
 		DataMemory->tipo=tipo;
@@ -54,7 +54,7 @@ void alocarDataMemory(char tipo, char *dado, char *rotulo, char dadoChar, int ta
 		aux->rotulo=malloc(sizeof(char)*tamanho);
 		strcpy(aux->rotulo,rotulo);
 		if (tipo=='i')
-			aux->inteiro=atoi(dado);
+			aux->numero=atoi(dado);
 		else
 			aux->string=dadoChar;
 		aux->tipo=tipo;
@@ -100,7 +100,7 @@ int ProcurarValorMemoriaData(int pos){
 	aux=DataMemory;
 	while (aux->pos!=pos)
 		aux=aux->prox;
-	return aux->inteiro;
+	return aux->numero;
 }
 
 void ArmazenarValorMemoriaData(int pos, int valor){
@@ -108,5 +108,5 @@ void ArmazenarValorMemoriaData(int pos, int valor){
 	aux=DataMemory;
 	while (aux->pos!=pos)
 		aux=aux->prox;
-	aux->inteiro=valor;
+	aux->numero=valor;
 }

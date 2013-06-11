@@ -1,0 +1,45 @@
+.data:
+.code:
+	SYS A, 1
+	PUSH A
+	SYS B, 1
+	PUSH B
+	POP D
+	POP F
+	MOV A, 2
+cont:
+	MUL F, D, F
+	PUSH F
+	SUB A, A, 1
+	JUMPP cont, A
+	CALL @funcao
+	SYS B, 2
+	SYS C, 2
+	CALL @funcao2
+	SYS F, 2
+	SYS I, 2
+	CALL @funcao3
+	SYS I, 2
+	EXIT
+
+@funcao:
+	ADD C, 300, 200
+	ADD B, 1P, 2P
+	RET
+
+@funcao2:
+	MOV G, 3
+	MOV I, 2
+cont2:
+	MUL I, I, 2
+	SUB G, G, 1
+	JUMPP cont2, G
+	RET
+
+@funcao3:
+	MOV G, 2
+cont3:
+	DIV I, I, 2
+	SUB G, G, 1
+	JUMPP cont3, G
+	RET

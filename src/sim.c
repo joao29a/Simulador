@@ -15,28 +15,28 @@ int PC=0;
 void ExecutaInstrucao(int op, int dest, int B, int C){
 	switch(op){
 		case 0:
-			registrador[dest].inteiro=B;
+			registrador[dest].numero=B;
 			break;
 		case 1:
-			registrador[dest].inteiro=ProcurarValorMemoriaData(B);
+			registrador[dest].numero=ProcurarValorMemoriaData(B);
 			break;
 		case 2:
 			ArmazenarValorMemoriaData(dest,B);
 			break;
 		case 3:
-			registrador[dest].inteiro=B+C;
+			registrador[dest].numero=B+C;
 			break;
 		case 4:
-			registrador[dest].inteiro=B-C;
+			registrador[dest].numero=B-C;
 			break;
 		case 5:
-			registrador[dest].inteiro=B*C;
+			registrador[dest].numero=B*C;
 			break;
 		case 6:
-			registrador[dest].inteiro=B/C;
+			registrador[dest].numero=B/C;
 			break;
 		case 7:
-			registrador[dest].inteiro=B%C;
+			registrador[dest].numero=B%C;
 			break;
 		case 9:
 			PC=dest-1;
@@ -54,10 +54,10 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 				PC=dest-1;
 			break;
 		case 13:
-			Empilhar(registrador[dest].inteiro);
+			Empilhar(registrador[dest].numero);
 			break;
 		case 14:
-			registrador[dest].inteiro=Desempilhar();
+			registrador[dest].numero=Desempilhar();
 			break;
 		case 15:
 			Empilhar(PC);
@@ -68,12 +68,12 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 				case 1:{
 					char buffer[50];
 					fgets(buffer,50,stdin);
-					registrador[dest].inteiro=atoi(buffer);
+					registrador[dest].numero=atoi(buffer);
 					break;
 				}
 				case 2:
 					if (MainMemory[PC].address=='R')
-						printf("%d\n",registrador[dest].inteiro);
+						printf("%d\n",registrador[dest].numero);
 					else{
 						MemoriaData *aux;
 						aux=DataMemory;
@@ -83,7 +83,7 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 							MemoriaData *buffer;
 							buffer=aux;
 							while (aux!=NULL && (strcmp(aux->rotulo,buffer->rotulo)==0)){
-								printf("%d\n",aux->inteiro);
+								printf("%d\n",aux->numero);
 								aux=aux->prox;
 							}
 						}
@@ -111,7 +111,7 @@ void ExecutaInstrucao(int op, int dest, int B, int C){
 			break;
 		case 18:
 			PC=-1;
-			//printf("Programa finalizado, pressione enter para continuar...");
+			printf("Simulação finalizada.\n");
 			//while (getchar()!='\r' && getchar()!='\n');
 			break;
 	}
@@ -169,7 +169,7 @@ void inserirPrograma(int argc, char *argv[]){
 			else if (strcmp(argv[i],"-es")==0)
 				IniciarExecucao(PC,'s');
 			else if (strcmp(argv[i],"-r")==0)
-				MostraRegistradores(registrador);
+				MostraRegistradores();
 			i++;
 		}
 	}
@@ -180,13 +180,13 @@ void inserirPrograma(int argc, char *argv[]){
 int main(int argc, char *argv[]){
 	if (argc > 1){
 		IniciarMemoriaData();
-		IniciarMemoriaCode(MainMemory);
+		IniciarMemoriaCode();
 		IniciarPilha();
-		atribuirLetrasReg(registrador);
+		atribuirLetrasReg();
 		iniciarTabelaRotulo();
 		inserirPrograma(argc,argv);
 		free(DataMemory);
 	} else
-		printf("Nao ha programa para ser simulado!\n");
+		printf("Não há programa para ser simulado!\n");
 	return 0;
 }

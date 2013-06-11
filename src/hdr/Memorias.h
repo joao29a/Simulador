@@ -5,7 +5,7 @@
 
 typedef struct MemoriaData{
 	int pos;
-	int inteiro;
+	int numero;
 	char *rotulo;
 	char string;
 	char tipo;
@@ -39,7 +39,7 @@ typedef struct MemoriaCode{
 
 extern MemoriaCode MainMemory[TAM_MEM];
 
-void IniciarMemoriaCode(MemoriaCode *memory);
+void IniciarMemoriaCode();
 
 void CarregarMemoriaCode(MemoriaCode *memory, int endereco, int opcode, int dest, char *orig1, char *orig2);
 

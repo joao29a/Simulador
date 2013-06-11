@@ -6,8 +6,8 @@ char *TabelaRegistradores[]={"A","B","C","D","E","F","G","H","I","J","K","L",
 
 Registradores registrador[QTD_REG];
 
-void atribuirLetrasReg(Registradores *reg){
+void atribuirLetrasReg(){
 	int i;
 	for (i=0;i<QTD_REG;i++)
-		reg[i].reg=TabelaRegistradores[i];
+		registrador[i].reg=TabelaRegistradores[i];
 }

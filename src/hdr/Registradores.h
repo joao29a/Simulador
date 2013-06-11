@@ -7,11 +7,11 @@ extern char *TabelaRegistradores[];
 
 typedef struct Registradores{
 	char *reg;
-	int inteiro;
+	int numero;
 }Registradores;
 
 extern Registradores registrador[QTD_REG];
 
-void atribuirLetrasReg(Registradores *reg);
+void atribuirLetrasReg();
 
 #endif

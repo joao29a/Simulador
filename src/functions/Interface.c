@@ -24,7 +24,7 @@ void MostraDataMemory(){
 				printf("%03d - %c\n",aux->pos,aux->string);
 		}
 		else
-			printf("%03d - %d\n",aux->pos,aux->inteiro);
+			printf("%03d - %d\n",aux->pos,aux->numero);
 		aux=aux->prox;
 	}
 }
@@ -42,5 +42,5 @@ void MostraRegistradores(){
      	printf("###### Registradores ######\n");
 	int i;
 	for (i=0;i<QTD_REG;i++)
-		printf("%s: %d\n",registrador[i].reg,registrador[i].inteiro);
+		printf("%s: %d\n",registrador[i].reg,registrador[i].numero);
 }

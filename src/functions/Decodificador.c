@@ -61,7 +61,7 @@ int decOperando(char *orig){
 		int i;
 		for (i=0;i<QTD_REG;i++)
 			if (strcmp(orig,registrador[i].reg)==0){
-				valor=registrador[i].inteiro;
+				valor=registrador[i].numero;
 				break;
 			}
 	}

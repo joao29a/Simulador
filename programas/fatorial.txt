@@ -1,0 +1,15 @@
+.data:
+	insirir: .ascii "Programa para calcular fatorial\n"
+	numero: .ascii "Insira um numero: "
+.code:
+	SYS insirir, 3
+	SYS numero, 3
+	SYS A, 1
+	MOV B, A
+	SUB B, B, 1
+fat:
+	MUL A, A, B
+	SUB B, B, 1
+	JUMPP fat, B
+	SYS A, 2
+	EXIT

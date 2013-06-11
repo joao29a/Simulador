@@ -1,0 +1,58 @@
+.data:
+	n1: .int 79
+	n2: .int 90
+	n3: .int 78
+	nmaior: .int 0
+	nmenor: .int 0
+	maior: .ascii "Maior: "
+	menor: .ascii "Menor: "
+.code:
+	LD A, n1
+	LD B, n2
+	LD C, n3
+	SUB D, A, B
+	JUMPP amaior, D
+	PUSH A
+	SUB D, B, C
+	JUMPP bmaior, D
+	MOV A, B
+	JUMP cmaior
+
+amaior:
+	PUSH B
+	SUB D, C, A
+	JUMPP cmaior, D
+	ST nmaior, A
+	PUSH C
+	JUMP menor
+
+bmaior:
+	PUSH C
+	ST nmaior, B
+	JUMP menor
+
+cmaior:
+	PUSH A
+	ST nmaior, C
+
+menor:
+	POP A
+	POP B
+	SUB D, A, B
+	JUMPN amenor, D
+	ST nmenor, B
+	JUMP fim
+
+amenor:
+	ST nmenor, A
+
+fim:
+	CALL @imprimir
+	EXIT
+
+@imprimir:
+	SYS maior, 3
+	SYS nmaior, 2
+	SYS menor, 3
+	SYS nmenor, 2
+	RET

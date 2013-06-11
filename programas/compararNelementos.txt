@@ -1,0 +1,48 @@
+.data:
+	n1: .ascii "Digite N: "
+	inserir: .ascii "Insira um numero: "
+	numeromaior: .ascii "Maior: "
+	numeromenor: .ascii "Menor: "
+	maior: .int 0
+	menor: .int 0
+.code:
+	SYS n1, 3
+	SYS A, 1
+	MOV B, A
+loop:
+	SYS inserir, 3
+	SYS C, 1
+	SUB B, B, A
+	JUMPZ armazenar, B
+	LD D, maior
+	LD E, menor
+	SUB F, C, D
+	JUMPP nmaior, F
+	SUB F, C, E
+	JUMPN nmenor, F
+
+cont:
+	SUB A, A, 1
+	JUMPP loop, A
+	CALL @imprimir
+	EXIT
+
+nmaior:
+	ST maior, C
+	JUMP cont
+
+nmenor:
+	ST menor, C
+	JUMP cont
+
+armazenar:
+	ST maior, C
+	ST menor, C
+	JUMP cont
+
+@imprimir:
+	SYS numeromaior, 3
+	SYS maior, 2
+	SYS numeromenor, 3
+	SYS menor, 2
+	RET
