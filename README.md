@@ -1,9 +1,6 @@
 Simulador de Assembly Genérico
 
-Integrantes:
-- João Almeida de Jesus
-- Lucas Georges Helai
-- Rodrigo Bico Maller
+by João Almeida de Jesus
 
 Caso criarem algum arquivo .c novo alterem o makefile para o gcc compilar tal arquivo.
 
@@ -27,3 +24,8 @@ Execução:
 		- Irá mostrar a memória antes da execução do programa.
 	- ./simular (nome-do-arquivo) -m -e -r -md
 		- Irá mostrar a memória, executar, mostrar os registradores depois da execução, e por fim, a memória de dados.
+Restrições:
+	- O nome de uma variavel da memória deve ser maior que 1.
+	- Para criar uma função, deve-se usar "@" antes do nome da função.
+	- As instruções devem estar identada por tab.
+	- Rótulos de loop, ou rótulos de funções não devem estar identadas por tabs. E após um rótulo, a instrução não poderá ser na mesma linha.
